@@ -1,0 +1,20 @@
+{
+  "name": "pm2-syslog",
+  "version": "1.2.0",
+  "description": "Redirect PM2/apps logs to syslog",
+  "main": "probe.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "ain2": "^1.5.2",
+    "pmx": "latest"
+  },
+  "apps": [
+    {
+      "script": "app.js"
+    }
+  ],
+  "author": "",
+  "license": "ISC"
+}
