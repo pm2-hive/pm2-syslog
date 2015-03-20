@@ -12,4 +12,4 @@ $ pm2 uninstall pm2-syslog
 
 # License
 
-AGPLV3
+MIT
