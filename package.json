@@ -8,7 +8,8 @@
   },
   "dependencies": {
     "ain2": "^1.5.2",
-    "pmx": "latest"
+    "pm2": "^0.12.10",
+    "pmx": "^0.3.5"
   },
   "apps": [
     {
