@@ -5,7 +5,7 @@ var pmx     = require('pmx');
 var pm2     = require('pm2');
 
 var SysLogger = require('ain2');
-var logger    = new SysLogger({facility: 'syslog'});
+var logger = new SysLogger({tag: 'pm2', facility: 'syslog'});
 
 var conf    = pmx.initModule();
 
