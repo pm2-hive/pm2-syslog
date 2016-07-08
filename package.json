@@ -1,21 +1,21 @@
 {
   "name": "pm2-syslog",
-  "version": "1.5.0",
+  "version": "2.0.0",
   "description": "Redirect PM2/apps logs to syslog",
   "main": "probe.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "ain2": "^1.5.2",
-    "pm2": "^0.12.10",
-    "pmx": "^0.3.5"
+    "ain2": "^2.0.0",
+    "pm2": "latest"
   },
   "apps": [
     {
+      "name" : "pm2-syslog",
       "script": "app.js"
     }
   ],
-  "author": "",
-  "license": "ISC"
+  "author": "Alexandre Strzelewicz",
+  "license": "MIT"
 }
