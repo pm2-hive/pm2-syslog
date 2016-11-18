@@ -8,12 +8,13 @@
   },
   "dependencies": {
     "ain2": "^2.0.0",
-    "pm2": "latest"
+    "pm2": "latest",
+    "pmx": "latest"
   },
   "apps": [
     {
       "name": "pm2-syslog",
-      "script": "app.js"
+      "script": "index.js"
     }
   ],
   "author": "Alexandre Strzelewicz",
