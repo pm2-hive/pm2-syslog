@@ -2,7 +2,16 @@
 
 Redirect all logs of PM2 + Apps managed into `/var/log/syslog`
 
-## Configure OS
+OR
+
+Into standard syslog socket
+
+```
+# You can use any config parameter that ain2 supports
+pm2 set pm2-syslog:path /dev/log
+```
+
+## Configure OS (if not using socket)
 
 Edit `/etc/rsyslog.conf` and uncomment:
 

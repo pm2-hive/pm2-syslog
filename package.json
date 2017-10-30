@@ -1,6 +1,6 @@
 {
   "name": "pm2-syslog",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Redirect PM2/apps logs to syslog",
   "main": "probe.js",
   "scripts": {
@@ -8,7 +8,8 @@
   },
   "dependencies": {
     "ain2": "^2.0.0",
-    "pm2": "latest"
+    "pm2": "latest",
+    "unix-dgram": "^2.0.1"
   },
   "apps": [
     {
@@ -16,6 +17,10 @@
       "script": "app.js"
     }
   ],
+  "config": {
+    "tag": "pm2",
+    "facility": "syslog"
+  },
   "author": "Alexandre Strzelewicz",
   "license": "MIT"
 }
