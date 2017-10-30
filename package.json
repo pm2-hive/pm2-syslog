@@ -1,6 +1,6 @@
 {
   "name": "pm2-syslog",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Redirect PM2/apps logs to syslog",
   "main": "probe.js",
   "scripts": {
