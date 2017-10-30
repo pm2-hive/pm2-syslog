@@ -17,6 +17,10 @@
       "script": "app.js"
     }
   ],
+  "config": {
+    "tag": "pm2",
+    "facility": "syslog"
+  },
   "author": "Alexandre Strzelewicz",
   "license": "MIT"
 }
