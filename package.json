@@ -8,7 +8,8 @@
   },
   "dependencies": {
     "ain2": "^2.0.0",
-    "pm2": "latest"
+    "pm2": "latest",
+    "unix-dgram": "^2.0.1"
   },
   "apps": [
     {
