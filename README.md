@@ -28,6 +28,22 @@ $ pm2 install pm2-syslog
 $ pm2 uninstall pm2-syslog
 ```
 
+## Configure
+
+All parameters are optional
+
+`pm2 set pm2-syslog:syslog_tag [value]`
+
+`pm2 set pm2-syslog:syslog_facility [value]`
+
+`pm2 set pm2-syslog:syslog_hostname [value]`
+
+`pm2 set pm2-syslog:syslog_address [value]`
+
+`pm2 set pm2-syslog:syslog_port [value]`
+
+`pm2 set pm2-syslog:syslog_transport [value]`
+
 # License
 
 MIT
