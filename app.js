@@ -38,7 +38,8 @@ pm2.launchBus(function(err, bus) {
 
   bus.on('log:out', function(data) {
     message = data.data;
-    logger.log(data.process.name + ' ' + "pid" + ' ' + 'msgID' + ' ' + message)
+    pid = pm2.describe(0);
+    logger.log(data.process.name + ' ' + pid + ' ' + 'msgID' + ' ' + message)
     //logger.log('app=%s id=%s line=%s', data.process.name, data.process.pm_id, data.data);
   })
 });
