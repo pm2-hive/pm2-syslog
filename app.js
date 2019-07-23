@@ -10,36 +10,43 @@ var serverAddress =  conf.serverAddress || "localhost"
 var serverPort =   conf.serverPort || "514"
 console.log(`Starting pm2-syslogger logging to ${serverAddress}:${serverPort}`)
 var logger    = new SysLogger({facility: 1 ,address : serverAddress});
- 
 logger.setPort(serverPort)
-logger.setHostname("MF-PC")
 
 //format <facility> DATE HOSTNAME APPNAME PID MSGID MSG
 
 logger.setMessageComposer(function(message, severity){
-  return new Buffer('<' + (this.facility * 8 + severity) + '>' +
+  return new Buffer('<' + (this.facility * 8 + severity) + '>1 ' +
           this.getDate() + ' ' + this.hostname + ' ' + message);
 });
 
+// ON pm2 event
 pm2.launchBus(function(err, bus) {
   bus.on('*', function(event, data){
     if (event == 'process:event') {
-      logger.warn('app=pm2 target_app=%s target_id=%s restart_count=%s status=%s',
-                  data.process.name,
-                  data.process.pm_id,
-                  data.process.restart_time,
-                  data.event);
+	logger.warn(`pm2 ${data.process.pm_id} 0 [pm2 process="${data.process.name}" restart_count="${data.process.restart_time}" status="${data.event}"]`);
     }
   });
-
-  bus.on('log:err', function(data) {
-    logger.error('app=%s id=%s line=%s', data.process.name, data.process.pm_id, data.data);
-  });
-
+  
+  
+// ON COUT
   bus.on('log:out', function(data) {
-    message = data.data;
-    pid = pm2.describe(0);
-    logger.log(data.process.name + ' ' + pid + ' ' + 'msgID' + ' ' + message)
-    //logger.log('app=%s id=%s line=%s', data.process.name, data.process.pm_id, data.data);
+	message = data.data;
+    pmId = data.process.pm_id;
+	//retrieving pid from pm2 description
+	pm2.describe(pmId, function(err, processDescription){
+		pid = processDescription[0].pid;
+		logger.log(`${data.process.name} ${pid} ${message}`);		
+	});
   })
+ 
+// ON CERR 
+  bus.on('log:err', function(data) {
+	message = data.data;
+	pmId = data.process.pm_id
+	//retrieving pid from pm2 description
+	pm2.describe(pmId, function(err, processDescription){
+		pid = processDescription[0].pid;
+		logger.error(`${data.process.name} ${pid} ${message}`);		
+	});
+  })  
 });
