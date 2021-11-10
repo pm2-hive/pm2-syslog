@@ -8,16 +8,28 @@ const conf = pmx.initModule();
 
 var serverAddress =  conf.serverAddress || "localhost"
 var serverPort =   conf.serverPort || "514"
-console.log(`Starting pm2-syslogger logging to ${serverAddress}:${serverPort}`)
+var syslogFormat =   conf.syslogFormat || "RFC5424"
+// RFC 3164 : <133>Feb 25 14:09:07 webserver syslogd[0]: restart
+//          <facility>    date         host     app   pid  log
+// RFC 5424 : <34>1 2003-10-11T22:14:15.003Z mymachine myapplication 1234 ID47 [mydata class="high"] BOMmyapplication is started
+//       <facility>ver.    date                host        app       pid  msgid   structured data             log
+
+console.log(`Starting pm2-syslogger logging to ${serverAddress}:${serverPort} using ${syslogFormat}`)
 var logger    = new SysLogger({facility: 1 ,address : serverAddress});
 logger.setPort(serverPort)
 
-//format <facility> DATE HOSTNAME APPNAME PID MSGID MSG
 
-logger.setMessageComposer(function(message, severity){
-  return new Buffer('<' + (this.facility * 8 + severity) + '>1 ' +
+if (syslogFormat == "RFC3164"){
+	logger.setMessageComposer(function(message, severity){
+	return new Buffer.from('<' + (this.facility * 8 + severity) + '> ' +
+		this.getDate() + ' ' + this.hostname + ' ' + message);
+	});
+} else { //default to RFC5424
+	logger.setMessageComposer(function(message, severity){
+  	return new Buffer.from('<' + (this.facility * 8 + severity) + '>1 ' +
           this.getDate() + ' ' + this.hostname + ' ' + message);
-});
+	});
+}
 
 // ON pm2 event
 pm2.launchBus(function(err, bus) {
@@ -35,7 +47,11 @@ pm2.launchBus(function(err, bus) {
 	//retrieving pid from pm2 description
 	pm2.describe(pmId, function(err, processDescription){
 		pid = processDescription[0].pid;
-		logger.log(`${data.process.name} ${pid} ${message}`);		
+		if (syslogFormat == "RFC3164"){
+			logger.log(`${data.process.name}[${pid}]:${message}`);
+		} else { //default to RFC5424
+			logger.log(`${data.process.name} ${pid} 0 [] ${message}`);
+		}	
 	});
   })
  
@@ -46,7 +62,11 @@ pm2.launchBus(function(err, bus) {
 	//retrieving pid from pm2 description
 	pm2.describe(pmId, function(err, processDescription){
 		pid = processDescription[0].pid;
-		logger.error(`${data.process.name} ${pid} ${message}`);		
+		if (syslogFormat == "RFC3164"){
+			logger.error(`${data.process.name}[${pid}]:${message}`);
+		} else {  //default to RFC5424	
+			logger.error(`${data.process.name} ${pid} 0 [] ${message}`);
+		}	
 	});
   })  
 });

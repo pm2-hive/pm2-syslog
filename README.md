@@ -10,6 +10,7 @@ It adds the ability to send logs to a remote Syslog server and specify its IP an
 pm2 install agrosjea/pm2-syslog
 pm2 set pm2-syslog:serverAddress [xxx.xxx.xxx.xxx] (localhost by default)
 pm2 set pm2-syslog:serverPort [xxxxx] (514 by default)
+pm2 set pm2-syslog:syslogFormat [xxxxx] (RFC5424 by default, other format supported is RFC3164)
 ```
 
 Redirect all logs of PM2 + Apps managed into `/var/log/syslog`
