@@ -1,7 +1,7 @@
 
-var pm2       = require('pm2');
-var SysLogger = require('ain2');
-var logger    = new SysLogger({tag: 'pm2',  facility: 'syslog'});
+const pm2       = require('pm2');
+const SysLogger = require('ain2');
+const logger    = new SysLogger({tag: 'pm2',  facility: 'syslog'});
 
 pm2.launchBus(function(err, bus) {
   bus.on('*', function(event, data){

@@ -7,8 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "ain2": "^2.0.0",
-    "pm2": "latest"
+    "ain2": "^3.0.0",
+    "pm2": "^5.2.0"
   },
   "apps": [
     {
